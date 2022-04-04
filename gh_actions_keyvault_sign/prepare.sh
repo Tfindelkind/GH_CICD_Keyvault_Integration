@@ -3,11 +3,11 @@
 
 ## Set environment variable like ResourceGroup (RG), Location etc.
 ## for example 
-RG=GHActionsKV
+RG=ghactionsav
 LOCATION=WestEurope
-CLUSTER="$RG"AKS
-ACR="$RG"ACR
-SP="$RG"SP
+CLUSTER="$RG"aks
+ACR="$RG"acr
+SP="$RG"sp
 
 export RG
 export LOCATION
@@ -44,6 +44,9 @@ SERVICE_PRINCIPAL_TENANT=$(az ad sp list --display-name $SP --query "[].appOwner
 gh secret set SERVICE_PRINCIPAL_APP_ID -b $SERVICE_PRINCIPAL_APP_ID
 gh secret set SERVICE_PRINCIPAL_SECRET -b $SERVICE_PRINCIPAL_SECRET
 gh secret set SERVICE_PRINCIPAL_TENANT -b $SERVICE_PRINCIPAL_TENANT
+gh secret set ACR_NAME -b $ACR
+gh secret set CLUSTER_RESOURCE_GROUP_NAME -b $RG
+gh secret set CLUSTER_NAME -b $CLUSTER
 
 az role assignment create \
     --role AcrPush \

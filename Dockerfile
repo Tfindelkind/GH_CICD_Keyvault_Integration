@@ -4,4 +4,5 @@ WORKDIR /opt
 COPY ./app.sh .
 COPY ./version .
 
+
 CMD ["./app.sh"]

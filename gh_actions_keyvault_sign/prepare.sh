@@ -9,6 +9,12 @@ CLUSTER="$RG"AKS
 ACR="$RG"ACR
 SP="$RG"SP
 
+export RG
+export LOCATION
+export CLUSTER
+export ACR
+export SP
+
 az group create \
     --location $LOCATION \
     --name $RG

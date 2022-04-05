@@ -14,6 +14,7 @@ SP="$RG"sp
 KV="$RG"kv
 SUBSCRIPTION=$(az account show --query id --output tsv)
 
+
 export RG
 export LOCATION
 export CLUSTER
@@ -47,6 +48,7 @@ az ad sp create-for-rbac \
 SERVICE_PRINCIPAL_SECRET=$(az ad sp create-for-rbac --name $SP --query password --output tsv)
 SERVICE_PRINCIPAL_APP_ID=$(az ad sp list --display-name $SP --query "[].appId" -o tsv)
 SERVICE_PRINCIPAL_TENANT=$(az ad sp list --display-name $SP --query "[].appOwnerTenantId" -o tsv)
+SERVICE_PRINCIPAL_OBJ_ID=$(az ad sp list --display-name $SP --query "[].objectId" -o tsv)
 
 gh secret set SERVICE_PRINCIPAL_APP_ID -b $SERVICE_PRINCIPAL_APP_ID
 gh secret set SERVICE_PRINCIPAL_SECRET -b $SERVICE_PRINCIPAL_SECRET
@@ -91,12 +93,18 @@ az keyvault create \
     --resource-group $RG \
     --location $LOCATION
 
-az role assignment create \
-    --role "Key Vault Certificates Officer" \
-    --assignee-principal-type ServicePrincipal \
-    --assignee-object-id $(az ad sp show \
-        --id $SERVICE_PRINCIPAL_APP_ID \
-        --query objectId -o tsv) \
-    --scope /subscriptions/$SUBSCRIPTION/resourcegroups/$RG
+#az role assignment create \
+#    --role "Key Vault Certificates Officer" \
+#    --assignee-principal-type ServicePrincipal \
+#    --assignee-object-id $(az ad sp show \
+#    --id $SERVICE_PRINCIPAL_APP_ID \
+#    --query objectId -o tsv) \
+#    --scope /subscriptions/$SUBSCRIPTION/resourcegroups/$RG
 
 
+az keyvault set-policy \
+    --name $KV \
+    --object-id $SERVICE_PRINCIPAL_OBJ_ID \
+    --secret-permissions backup restore \
+    --key-permissions get list import \
+    --certificate-permissions get list

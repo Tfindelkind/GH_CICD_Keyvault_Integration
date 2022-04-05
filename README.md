@@ -23,9 +23,9 @@ cat privatekey.pem  >> certificate.pem
 
 # Deploying the application
 
-echo "1.1.1" > ./version
-git commit -m "release version 1.1.1"
-git tag v1.1.1
+echo "1.1.2" > ./version
+git commit -m "release version 1.1.2"
+git tag v1.1.2
 git push origin main --tags
 
 

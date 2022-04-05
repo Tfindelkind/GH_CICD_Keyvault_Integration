@@ -26,6 +26,9 @@ jobs:
         env:
           ACR_NAME: ${{ secrets.ACR_NAME }}
         run: make push
+      - name: Verify 
+        env:
+        run: make verify
       - name: Get AKS credentials
         env:
           CLUSTER_RESOURCE_GROUP_NAME: ${{ secrets.CLUSTER_RESOURCE_GROUP_NAME }}

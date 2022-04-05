@@ -1,5 +1,6 @@
-## IMPORTANT: az login and set Azure Subscription as needed 
-## IMPORTANT: github CLI need to be installed
+## IMPORTANT: Make sure you are logged in to Azure (set Subscription if needed) and Github.com:
+## IMPORTANT: az login 
+## IMPORTANT: gh auth login 
 ## A certificate need to be created as 
 ## For example: openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out certificate.pem -keyout privatekey.pem
 ##              cat privatekey.pem  >> certificate.pem

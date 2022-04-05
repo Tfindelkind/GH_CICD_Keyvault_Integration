@@ -102,10 +102,11 @@ az keyvault create \
 #    --query objectId -o tsv) \
 #    --scope /subscriptions/$SUBSCRIPTION/resourcegroups/$RG
 
-
 az keyvault set-policy \
     --name $KV \
     --object-id $SERVICE_PRINCIPAL_OBJ_ID \
     --secret-permissions backup restore \
     --key-permissions get list import \
     --certificate-permissions get list
+
+az keyvault certificate import --vault-name $KV -n "MyCertificate" -f "./certificate.pem"

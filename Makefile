@@ -1,9 +1,9 @@
 VERSION_FILE := version
 VERSION := $(shell cat ${VERSION_FILE})
-ACR_NAME := ghactionskvacr
+ACR_NAME := tfghactionskvacr
 REPO_NAME := upgrade-test
 IMAGE_REPO := $(ACR_NAME).azurecr.io/$(REPO_NAME)
-KV := ghactionsavkv
+KV := tfghactionsavkv
 
 
 .PHONY: build
@@ -17,7 +17,7 @@ registry-login:
 		--username $(SERVICE_PRINCIPAL_APP_ID) \
 		--password $(SERVICE_PRINCIPAL_SECRET) \
 		--tenant $(SERVICE_PRINCIPAL_TENANT)
-	@az acr login --name ghactionskvacr
+	@az acr login --name $(ACR_NAME)
 
 .PHONY: push
 push:

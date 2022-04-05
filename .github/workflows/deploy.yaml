@@ -28,6 +28,8 @@ jobs:
         run: make push
       - name: Verify 
         env:
+          SERVICE_PRINCIPAL_APP_ID: ${{ secrets.SERVICE_PRINCIPAL_APP_ID }}
+          SERVICE_PRINCIPAL_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
         run: make verify
       - name: Get AKS credentials
         env:

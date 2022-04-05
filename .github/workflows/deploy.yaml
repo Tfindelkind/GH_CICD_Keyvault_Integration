@@ -26,12 +26,13 @@ jobs:
         env:
           ACR_NAME: ${{ secrets.ACR_NAME }}
         run: make push
+      - name: prepare_verify 
+        run:  chmod +x ./verify.sh
       - name: Verify 
         env:
           SERVICE_PRINCIPAL_APP_ID: ${{ secrets.SERVICE_PRINCIPAL_APP_ID }}
           SERVICE_PRINCIPAL_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-        run:  chmod +x ./verify.sh
-              make verify
+        run:  make verify
       - name: Get AKS credentials
         env:
           CLUSTER_RESOURCE_GROUP_NAME: ${{ secrets.CLUSTER_RESOURCE_GROUP_NAME }}

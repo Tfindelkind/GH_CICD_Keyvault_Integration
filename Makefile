@@ -3,7 +3,7 @@ VERSION := $(shell cat ${VERSION_FILE})
 ACR_NAME := tfghactionskvacr
 REPO_NAME := upgrade-test
 IMAGE_REPO := $(ACR_NAME).azurecr.io/$(REPO_NAME)
-KV := tfghactionsavkv
+KV := tfghactionskvkv
 
 
 .PHONY: build

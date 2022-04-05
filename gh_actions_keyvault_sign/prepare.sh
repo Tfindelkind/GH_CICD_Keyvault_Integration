@@ -7,7 +7,7 @@
 
 ## Set environment variable like ResourceGroup (RG), Location etc.
 ## for example 
-RG=ghactionsav
+RG=tfghactionsav
 LOCATION=WestEurope
 CLUSTER="$RG"aks
 ACR="$RG"acr

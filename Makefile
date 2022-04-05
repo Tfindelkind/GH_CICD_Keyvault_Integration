@@ -1,6 +1,10 @@
 VERSION_FILE := version
 VERSION := $(shell cat ${VERSION_FILE})
-IMAGE_REPO := ghactionskvacr.azurecr.io/upgrade-test
+ACR_NAME := ghactionskvacr
+REPO_NAME := upgrade-test
+IMAGE_REPO := $(ACR_NAME).azurecr.io/$(REPO_NAME)
+KV := ghactionsavkv
+
 
 .PHONY: build
 build:
@@ -19,6 +23,9 @@ registry-login:
 push:
 	docker push $(IMAGE_REPO):$(VERSION)
 
+.PHONY: verify
+verify:
+	./verify.sh $(ACR_NAME) $(REPO_NAME) $(KV)
 .PHONY: deploy
 deploy:
 	sed 's|IMAGE_REPO|$(IMAGE_REPO)|g; s/VERSION/$(VERSION)/g' ./deployment.yaml | \

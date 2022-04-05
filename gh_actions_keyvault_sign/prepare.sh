@@ -1,5 +1,8 @@
 ## IMPORTANT: az login and set Azure Subscription as needed 
 ## IMPORTANT: github CLI need to be installed
+## A certificate need to be created as 
+## For example: openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out certificate.pem -keyout privatekey.pem
+##              cat privatekey.pem  >> certificate.pem
 
 ## Set environment variable like ResourceGroup (RG), Location etc.
 ## for example 
@@ -8,12 +11,16 @@ LOCATION=WestEurope
 CLUSTER="$RG"aks
 ACR="$RG"acr
 SP="$RG"sp
+KV="$RG"kv
+SUBSCRIPTION=$(az account show --query id --output tsv)
 
 export RG
 export LOCATION
 export CLUSTER
 export ACR
 export SP
+export KV
+export SUBSCRIPTION
 
 az group create \
     --location $LOCATION \
@@ -78,4 +85,18 @@ az role assignment create \
         --resource-group $RG \
         --name $CLUSTER \
         --query id -o tsv)/namespaces/default"
+
+az keyvault create \
+    --name $KV \
+    --resource-group $RG \
+    --location $LOCATION
+
+az role assignment create \
+    --role "Key Vault Certificates Officer" \
+    --assignee-principal-type ServicePrincipal \
+    --assignee-object-id $(az ad sp show \
+        --id $SERVICE_PRINCIPAL_APP_ID \
+        --query objectId -o tsv) \
+    --scope /subscriptions/$SUBSCRIPTION/resourcegroups/$RG
+
 
